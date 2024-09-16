@@ -1,7 +1,7 @@
 python-Levenshtein
 unidecode
 optuna-dashboard
-transformers
+transformers==4.19.0
 tensorboardx
 nltk
 torch==1.13.1
