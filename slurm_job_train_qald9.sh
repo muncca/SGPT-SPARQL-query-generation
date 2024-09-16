@@ -3,7 +3,6 @@
 #SBATCH --time=15:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-core=1
-#SBATCH --ntasks-per-node=64
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=staff
 #SBATCH --gpus-per-node=a100:1
