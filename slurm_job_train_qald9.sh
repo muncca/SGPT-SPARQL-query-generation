@@ -8,4 +8,4 @@
 #SBATCH --gpus-per-node=a100:1
 #SBATCH --partition=staff
 
-srun python ~/dev/SGPT-SPARQL-query-generation/train.py --dataset qald9 --epochs 70 --output_dir "/scratch/capolcorsin/SGPT-SPARQL-query-generation/runs"
+srun python ~/dev/SGPT-SPARQL-query-generation/train.py --dataset qald9 --epochs 70 --output_dir "/scratch/capolcorsin/SGPT-SPARQL-query-generation/runs" --exp_name "sgpt_ep70_lr6e-4"
