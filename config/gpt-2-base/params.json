@@ -8,10 +8,10 @@
     "per_gpu_train_batch_size": 4,
     "per_gpu_eval_batch_size": 4,
     "gradient_accumulation_steps": 4,
-    "learning_rate": 6.25e-5,
+    "learning_rate":6e-4,
     "adam_epsilon": 1e-8,
     "max_grad_norm": 1,
-    "num_train_epochs": 70,
+    "num_train_epochs": 75,
     "warmup_steps": 0,
     "fp16": "",
     "seed": 42

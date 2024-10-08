@@ -1,8 +1,8 @@
 {
   "no_sample": false,
   "min_length": 1,
-  "max_length": 120,
-  "temperature": 0.5,
-  "top_k": 5,
-  "top_p": 0.9
+  "max_length": 160,
+  "temperature": 0.4,
+  "top_k": 10,
+  "top_p": 0.85
 }

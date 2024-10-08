@@ -3,3 +3,6 @@
 config/.DS_Store
 utils/__pycache__/*
 scripts/__pychache__/*
+outputs/*
+*.out
+scripts/__pycache__/
