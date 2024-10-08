@@ -6,3 +6,4 @@ tensorboardx
 nltk
 torch==1.13.1
 spacy
+flask==2.0.1
