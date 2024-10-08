@@ -5,4 +5,4 @@ utils/__pycache__/*
 scripts/__pychache__/*
 outputs/*
 *.out
-scripts/__pycache__/
+scripts/__pycache__/*
