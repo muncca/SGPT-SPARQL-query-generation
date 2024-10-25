@@ -3,7 +3,7 @@ import logging, json
 import torch
 from tqdm import tqdm, trange
 from argparse import Namespace
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from torch.utils.data.distributed import DistributedSampler
 from transformers import (
@@ -15,7 +15,7 @@ from transformers import (
      get_linear_schedule_with_warmup,
 )
 
-from scripts.model import run_batch_generation, GPT2LMHeadModel
+from model.gpt import run_batch_generation, GPT2LMHeadModel
 
 import os
 from utils.args import (
@@ -255,11 +255,11 @@ def main():
     )
 
     if args.dataset=="lcquad2":
-        from scripts.dataset_lcquad2 import EvalDataset, Dataset, SPECIAL_TOKENS
+        from scripts.dataset_lcquad2 import Dataset, SPECIAL_TOKENS
     if args.dataset=="vquanda":
-        from scripts.dataset_vquanda import EvalDataset, Dataset, SPECIAL_TOKENS
+        from scripts.dataset_vquanda import Dataset, SPECIAL_TOKENS
     if args.dataset=="qald9":
-        from scripts.dataset_qald9 import EvalDataset, Dataset, SPECIAL_TOKENS
+        from scripts.dataset_qald9 import Dataset, SPECIAL_TOKENS
 
 
     args = parser.parse_args()

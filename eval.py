@@ -1,9 +1,7 @@
 import argparse
-import glob
 import logging
 import os
 import random
-import shutil
 import json
 
 from typing import Dict
@@ -11,14 +9,13 @@ from argparse import Namespace
 import numpy as np
 import torch
 
-from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
-from torch.utils.data.distributed import DistributedSampler
-from tqdm import tqdm, trange
+from torch.utils.data import DataLoader, SequentialSampler
+from tqdm import tqdm
 from transformers import AutoTokenizer
-from scripts.model import GPT2LMHeadModel
+from model.gpt import GPT2LMHeadModel
 
 from utils.args import update_additional_params
-from scripts.model import decode_sample
+from model.gpt import decode_sample
 from utils.metrics import (
     UnigramMetric, NGramDiversity,
     CorpusNGramDiversity,
@@ -218,7 +215,7 @@ def main():
     if args.dataset == "vquanda":
         from scripts.dataset_vquanda import EvalDataset
     if args.dataset=="qald9":
-        from scripts.dataset_qald9 import EvalDataset, Dataset, SPECIAL_TOKENS
+        from scripts.dataset_qald9 import EvalDataset
 
     # load args from params file and update the args Namespace
     args.params_file = os.path.join(args.checkpoint, "params.json")
