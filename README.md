@@ -22,6 +22,11 @@ For single GPU:
 python train.py --dataset lcquad2 --epochs 40
 ```
 
+For Slurm on GPU:
+```
+sbatch slurm_job_qald9.sh
+```
+
 - valid dataset names: lcquad2, qald9, vquanda
 - For using the masked entity in the question use ```--masked``` for both training and evaluation.
 - For taking the additional knowledge (entities) into account ````--knowledge````. Only entities are regarded as additional knowledge.
@@ -32,7 +37,7 @@ python train.py --dataset lcquad2 --epochs 40
 python -u eval.py --generate runs/sgpt/lcquad2/ --dataset lcquad2 --generation_params_file config/gpt-2-base/generation_params.json --eval_dataset test  --output_file outputs/predictions_gpt2-base.json
 ```
 
-### 🎲 Hyper-paramters
+### 🎲 Hyper-parameters
 Please try the following number of epochs to find the best results: 10,20,30,40 or 70 and the following learning rates: 6e-4 or 6e-5 .
 
 ### 📝 Citation
