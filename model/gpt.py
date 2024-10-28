@@ -8,6 +8,8 @@ from transformers.activations import ACT2FN
 from torch.nn import CrossEntropyLoss
 from transformers.modeling_utils import Conv1D, find_pruneable_heads_and_indices, prune_conv1d_layer
 from transformers.models.gpt2 import GPT2PreTrainedModel
+from transformers import GenerationMixin
+
 logger = logging.getLogger(__name__)
 import json
 
@@ -560,12 +562,13 @@ class GPT2Model(GPT2PreTrainedModel):
 
 
 
-class GPT2LMHeadModel(GPT2PreTrainedModel):
+class GPT2LMHeadModel(GPT2PreTrainedModel, GenerationMixin):
     def __init__(self, config=None):
         super().__init__(config=config)
         self.transformer = GPT2Model(config=config)
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
-
+        # Untie weights of lm_head from transformer.wte
+        self.lm_head.weight = nn.Parameter(self.lm_head.weight.clone())
         self.init_weights()
 
     def get_output_embeddings(self):
@@ -708,6 +711,7 @@ def decode_sample(args, model, batch, dataset):       # decoding function
 
         logits = logits[0, -1, :] / args.temperature
         logits = top_filtering(logits, top_k=args.top_k, top_p=args.top_p)
+        #logits = torch.clamp(logits, min=-10, max=10)
         probs = F.softmax(logits, dim=-1)
 
         prev = torch.topk(probs, 1)[1] if args.no_sample else torch.multinomial(probs, 1)

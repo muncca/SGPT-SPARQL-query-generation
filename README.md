@@ -7,7 +7,7 @@ PyTorch code for the IEEE Access paper: SGPT: A Generative Approach for SPARQL Q
 
 ### ⚙️ Installation (anaconda)
 ```commandline
-conda create -n sgpt -y python=3.8 && source activate sgpt
+conda create -n sgpt4460 -y python=3.9 && source activate sgpt4460
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```

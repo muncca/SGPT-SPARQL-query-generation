@@ -1,9 +1,10 @@
 python-Levenshtein
 unidecode
 optuna-dashboard
-transformers==4.19.0
-tensorboardx
-nltk
-torch==1.13.1
-spacy
-flask==2.0.1
+transformers==4.46.0
+tensorboardx==2.6.2.2
+nltk==3.9.1
+torch==2.4.1
+numpy==2.0.2
+spacy==3.8.2
+flask

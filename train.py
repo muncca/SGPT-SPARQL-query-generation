@@ -7,14 +7,13 @@ from typing import Dict, Tuple
 from torch.utils.data import DataLoader, RandomSampler, SequentialSampler
 from torch.utils.data.distributed import DistributedSampler
 from transformers import (
-     AdamW,
      AutoConfig,
      AutoTokenizer,
      PreTrainedModel,
      PreTrainedTokenizer,
      get_linear_schedule_with_warmup,
 )
-
+from torch.optim import AdamW
 from model.gpt import run_batch_generation, GPT2LMHeadModel
 
 import os
@@ -63,6 +62,7 @@ def train(args, train_dataset, eval_dataset, model: PreTrainedModel, tokenizer: 
         scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=2, min_lr=0.0001, verbose=True)
 
     if args.fp16:
+        logger.info("FP16 training!!!", output_dir)
         try:
             from apex import amp
         except ImportError:
@@ -104,6 +104,8 @@ def train(args, train_dataset, eval_dataset, model: PreTrainedModel, tokenizer: 
             else:
                 loss.backward()
 
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0) # check if clipping works
+
             tr_loss += loss.item()
 
             if (step + 1) % args.gradient_accumulation_steps == 0:
@@ -144,7 +146,7 @@ def train(args, train_dataset, eval_dataset, model: PreTrainedModel, tokenizer: 
 
             logger.info("Saving model checkpoint to %s", output_dir)
             global_eval=results["loss"]
-            model_to_save.save_pretrained(output_dir)
+            model_to_save.save_pretrained(output_dir, safe_serialization=False)
             tokenizer.save_pretrained(output_dir)
 
             torch.save(args, os.path.join(output_dir, "training_args.bin"))
@@ -310,7 +312,11 @@ def main():
         tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
         tokenizer.add_special_tokens(SPECIAL_TOKENS)
         model = model_class.from_pretrained(args.model_name_or_path, config=config)
-        model.resize_token_embeddings(len(tokenizer))
+        model.resize_token_embeddings(len(tokenizer), mean_resizing=False)
+        #model.bfloat16()
+        #model.half().cuda()
+        #model.to(torch.float32)
+        #model.half().to(torch.float32)
 
     model.to(args.device)
 
@@ -337,7 +343,7 @@ def main():
             model_to_save = (
                 model.module if hasattr(model, "module") else model
             )  # Take care of distributed/parallel training
-            model_to_save.save_pretrained(args.output_dir)
+            model_to_save.save_pretrained(args.output_dir, safe_serialization=False)
             tokenizer.save_pretrained(args.output_dir)
 
             # Good practice: save your training arguments together with the trained model
