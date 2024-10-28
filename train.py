@@ -62,7 +62,7 @@ def train(args, train_dataset, eval_dataset, model: PreTrainedModel, tokenizer: 
         scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=2, min_lr=0.0001, verbose=True)
 
     if args.fp16:
-        logger.info("FP16 training!!!", output_dir)
+        logger.info("FP16 training!!!")
         try:
             from apex import amp
         except ImportError:
