@@ -285,7 +285,10 @@ def main():
     dataset_args.task = args.task
     dataset_args.knowledge = args.knowledge
 
-    logger.info("args.knowledge: %", args.knowledge)
+    if args.knowledge:
+        logger.info("****train with knowledge****")
+    else:
+        logger.info("****train without knowledge****")
 
     # Setup CUDA, GPU & distributed training
     args.distributed = (args.local_rank != -1)
