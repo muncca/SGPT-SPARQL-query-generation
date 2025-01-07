@@ -283,12 +283,8 @@ def main():
     dataset_args.task = args.task
     dataset_args.knowledge = args.knowledge
 
-    logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d : %(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
-        level=logging.INFO
-    )
-    logger.info("train parameters %s", args)
+    print("***args***")
+    print(args)
 
     # Setup CUDA, GPU & distributed training
     args.distributed = (args.local_rank != -1)
